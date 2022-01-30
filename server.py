@@ -2,11 +2,17 @@ from tkinter import *
 from tkinter import messagebox
 from data import names_girls
 import pandas as pd
+import send_results
 
 # Functions
 def date_to_csv(list, who_vote):
     new_table_to_csv = pd.DataFrame(list)
-    new_table_to_csv.to_csv(f"rated_names_{who_vote.lower()}.csv", index=False)
+    table_name = f"rated_names_{who_vote.lower()}.csv"
+    print(table_name)
+    new_table_to_csv.to_csv(table_name, index=False)
+
+    send_results.send_csv(filename=table_name, name=who_vote)
+
 # Variables
 name_default_num = 0
 total_names_num = len(names_girls)
@@ -33,11 +39,14 @@ def save():
 
         # Update name label after saving the data
         name_default_num += 1
-        name_value.config(text=names_girls[name_default_num])
+        try:
+            name_value.config(text=names_girls[name_default_num])
+        except IndexError:
+            name_value.config(text="La lista e finita")
         total_names_num -= 1
         name.config(text=f"Names in total: {total_names_num}")
 
-    if name_default_num >= len(names_girls) - 1:
+    if name_default_num >= len(names_girls):
         date_to_csv(names_data, choice)
         messagebox.showinfo(title="Info", message="Il tuo file e pronto.")
 
@@ -65,7 +74,7 @@ name_value.config(font=('Helvatical bold',30))
 name_value.grid(column=0, row=3)
 
 # Option menu. List of users
-option_list = ("Mamma", "Papa", "Zia")
+option_list = ("Mamma", "Papa", "Zia", "Nonna")
 who_vote_choice = StringVar()
 who_vote_choice.set("Select")
 opt_menu = OptionMenu(
