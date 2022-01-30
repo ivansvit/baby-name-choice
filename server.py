@@ -44,11 +44,11 @@ def save():
         except IndexError:
             name_value.config(text="La lista e finita")
         total_names_num -= 1
-        name.config(text=f"Names in total: {total_names_num}")
+        name.config(text=f"Nomi rimasti: {total_names_num}")
 
     if name_default_num >= len(names_girls):
         date_to_csv(names_data, choice)
-        messagebox.showinfo(title="Info", message="Il tuo file e pronto.")
+        messagebox.showinfo(title="Info", message="File e pronto.")
 
 
 # ---------------------------------- UI Setup ----------------------------------
@@ -101,8 +101,5 @@ next_name_btn = Button(text="Prossimo nome", command=save, width=30, highlightth
 next_name_btn.grid(column=0, row=5, columnspan=3)
 
 #TODO 1. Translate all labels to italian
-#TODO 2. Send csv file to my email
-
-
 
 window.mainloop()
